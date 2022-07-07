@@ -1,0 +1,7 @@
+---
+- name: Install base tools for srcds configuration
+  include_tasks: "{{ item }}"
+  with_items:
+    - dependencies.yml
+    - create-user.yml
+    - steamcmd.yml

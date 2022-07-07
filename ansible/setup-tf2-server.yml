@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  vars:
+    srcds_username: srcds-server
+    srcds_server_path: /home/srcds-server/server
+    steamcmd_path: /home/srcds-server/steamcmd
+    srcds_gameid: "232250"
+  tasks:
+    - include_role:
+        name: base
+    - include_role:
+        name: srcds-install

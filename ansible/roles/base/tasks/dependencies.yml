@@ -1,0 +1,18 @@
+---
+- name: Add 32bit support
+  command: "dpkg --add-architecture i386"
+
+- name: Update apt cache
+  apt:
+    update-cache: true
+
+- name: Upgrade apt
+  apt:
+    upgrade: true
+
+- name: Autoremove
+  apt:
+    autoremove: true
+
+- name: Install lib dependencies for srcds
+  command: apt-get -y -o \"Dpkg::Options::=--force-confdef\" -o \"Dpkg::Options::=--force-confold\" install 'libncurses5:i386' 'libbz2-1.0:i386' 'libtinfo5:i386' 'libcurl3-gnutls:i386' 'lib32z1' 'lib32gcc1' 'lib32stdc++6'

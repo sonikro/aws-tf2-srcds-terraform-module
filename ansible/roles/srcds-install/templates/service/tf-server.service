@@ -1,0 +1,11 @@
+[Unit]
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart={{srcds_server_path}}/run_server.sh
+User={{srcds_username}}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

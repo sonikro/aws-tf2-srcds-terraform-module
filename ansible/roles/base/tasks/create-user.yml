@@ -1,0 +1,6 @@
+---
+- name: Create srcds user
+  user:
+      name: "{{ srcds_username }}" # required. Name of the user to create, remove or modify..
+      create_home: yes # not required. Unless set to C(no), a home directory will be made for the user when the account is created or if the home directory does not exist.,Changed from C(createhome) to C(create_home) in version 2.5.
+      state: present # not required. choices: absent;present. Whether the account should exist or not, taking action if the state is different from what is stated.

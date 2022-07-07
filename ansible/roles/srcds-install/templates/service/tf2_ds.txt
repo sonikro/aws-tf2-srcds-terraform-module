@@ -1,0 +1,4 @@
+login anonymous
+force_install_dir {{srcds_server_path}}
+app_update 232250
+quit

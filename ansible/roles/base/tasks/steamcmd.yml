@@ -1,0 +1,16 @@
+---
+- name: Create steamcmd folder
+  file:
+    path: "{{ steamcmd_path }}" 
+    state: directory
+    owner: "{{ srcds_username }}"
+
+- name: Download and extract steamcmd
+  unarchive:
+    src: http://media.steampowered.com/client/steamcmd_linux.tar.gz
+    remote_src: true
+    dest: "{{ steamcmd_path }}"
+    owner: "{{ srcds_username }}"
+
+- name: Fix permissions
+  command: "chown -R {{ srcds_username }} {{ steamcmd_path }}"

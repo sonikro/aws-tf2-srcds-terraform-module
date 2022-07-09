@@ -14,21 +14,18 @@ jobs:
   validate_terraform:
     name: Validate Terraform
     runs-on: ubuntu-latest
+    container: sonikro/terragrunt-ansible:1.2.4-5.8.0
     steps:
     - name: Check out code  
       uses: actions/checkout@v2
 
-    - name: Run a Terraform init  
-      uses: docker://sonikro/terragrunt-ansible:1.2.4-5.8.0
-      with:
-        entrypoint: terraform
-        args: init -backend=false
+    - name: Validate
+      shell: sh
+      run: |
+        terraform init -backend=false
+        terraform fmt -check
+        terraform validate
 
-    - name: Run a Terraform validate    
-      uses: docker://sonikro/terragrunt-ansible:1.2.4-5.8.0
-      with:
-        entrypoint: terraform
-        args: validate
   validate_ansible:
     name: Validate Ansible
     runs-on: ubuntu-latest

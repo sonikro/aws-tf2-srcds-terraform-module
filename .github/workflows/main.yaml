@@ -11,12 +11,12 @@ on:
       - main
 
 jobs:
-  validate:
-    name: Validate
+  validate_terraform:
+    name: Validate Terraform
     runs-on: ubuntu-latest
     steps:
     - name: Check out code  
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Run a Terraform init  
       uses: docker://sonikro/terragrunt-ansible:1.2.4-5.8.0
@@ -29,3 +29,14 @@ jobs:
       with:
         entrypoint: terraform
         args: validate
+  validate_ansible:
+    name: Validate Ansible
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Ansible Lint
+        uses: ansible-community/ansible-lint-action@v6.2.1
+        with:
+          path: "ansible/"

@@ -30,6 +30,8 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     container: node:16
+    needs:
+      - validate_terraform
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main'}}
     steps:
       - name: Checkout

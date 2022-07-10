@@ -25,3 +25,17 @@ jobs:
         terraform init -backend=false
         terraform fmt -check
         terraform validate
+  
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    container: node:16
+    if: ${{ github.event_name == 'push' github.ref == 'refs/heads/main'}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+      

@@ -1,4 +1,9 @@
-# terraform-aws-teamfortress2-instance
+# terraform-aws-teamfortress2-server
+
+[![Pipeline](https://github.com/sonikro/terraform-aws-teamfortress2-server/actions/workflows/main.yaml/badge.svg)](https://github.com/sonikro/terraform-aws-teamfortress2-server/actions/workflows/main.yaml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 
 > This module was designed to create an Team Fortress 2 Dedicated Server on AWS EC2s.
 > 

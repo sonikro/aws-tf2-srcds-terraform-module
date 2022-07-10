@@ -25,15 +25,3 @@ jobs:
         terraform init -backend=false
         terraform fmt -check
         terraform validate
-
-  validate_ansible:
-    name: Validate Ansible
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Ansible Lint
-        uses: ansible-community/ansible-lint-action@v6.2.1
-        with:
-          path: "ansible/"

@@ -1,16 +1,19 @@
 ---
 - name: Create steamcmd folder
-  file:
-    path: "{{ steamcmd_path }}" 
+  ansible.builtin.file:
+    path: "{{ steamcmd_path }}"
     state: directory
     owner: "{{ srcds_username }}"
+    mode: 'u=rwx,g=rwx,o=r'
 
 - name: Download and extract steamcmd
-  unarchive:
+  ansible.builtin.unarchive:
     src: http://media.steampowered.com/client/steamcmd_linux.tar.gz
     remote_src: true
     dest: "{{ steamcmd_path }}"
     owner: "{{ srcds_username }}"
 
 - name: Fix permissions
-  command: "chown -R {{ srcds_username }} {{ steamcmd_path }}"
+  ansible.builtin.file:
+    path: "{{ steamcmd_path }}"
+    owner: "{{ srcds_username }}"

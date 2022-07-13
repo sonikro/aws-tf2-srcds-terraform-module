@@ -1,0 +1,51 @@
+# Create the tf2 service
+---
+- name: Copy run_server script
+  ansible.builtin.template:
+    src: service/run_server.sh
+    dest: "{{ srcds_server_path }}/run_server.sh"
+    owner: "{{ srcds_username }}"
+    mode: 'u=rwx,g=rwx,o=r'
+
+- name: Copy tf script
+  ansible.builtin.template:
+    src: service/tf.sh
+    dest: "{{ srcds_server_path }}/tf.sh"
+    owner: "{{ srcds_username }}"
+    mode: 'u=rwx,g=rwx,o=r'
+
+- name: Copy tf2_ds script
+  ansible.builtin.template:
+    src: service/tf2_ds.txt
+    dest: "{{ srcds_server_path }}/tf2_ds.txt"
+    owner: "{{ srcds_username }}"
+    mode: 'u=rwx,g=rwx,o=r'
+
+- name: Create systemctl service
+  ansible.builtin.template:
+    src: service/tf-server.service
+    dest: /etc/systemd/system/tf-server.service
+    mode: 'u=rwx,g=rwx,o=r'
+
+- name: Make scripts executable
+  ansible.builtin.file:
+    dest: "{{ srcds_server_path }}/run_server.sh"
+    owner: "{{ srcds_username }}"
+    mode: a+x
+
+- name: Make scripts executable
+  ansible.builtin.file:
+    dest: "{{ srcds_server_path }}/tf.sh"
+    mode: a+x
+    owner: "{{ srcds_username }}"
+
+- name: Enable service tf-server and ensure it is not masked
+  ansible.builtin.systemd:
+    name: tf-server
+    enabled: true
+    masked: false
+
+- name: Make sure service unit is running
+  ansible.builtin.systemd:
+    state: started
+    name: tf-server

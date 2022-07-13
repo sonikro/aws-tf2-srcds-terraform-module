@@ -1,6 +1,6 @@
 name: Pipeline
 
-on: 
+on:
   push:
     branches:
       - main
@@ -14,22 +14,31 @@ jobs:
     runs-on: ubuntu-latest
     container: sonikro/terragrunt-ansible:1.2.4-5.8.0
     steps:
-    - name: Check out code  
-      uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v2
 
-    - name: Validate
-      shell: sh
-      run: |
-        terraform init -backend=false
-        terraform fmt -check
-        terraform validate
-  
+      - name: Validate
+        shell: sh
+        run: |
+          terraform init -backend=false
+          terraform fmt -check
+          terraform validate
+  validate_ansible:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run ansible-lint
+        uses: ansible-community/ansible-lint-action@v6.2.1
+
   release:
     name: Release
     runs-on: ubuntu-latest
     container: node:16
     needs:
       - validate_terraform
+      - validate_ansible
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main'}}
     steps:
       - name: Checkout
@@ -38,4 +47,3 @@ jobs:
         uses: cycjimmy/semantic-release-action@v3
         env:
           GITHUB_TOKEN: ${{github.token}}
-      

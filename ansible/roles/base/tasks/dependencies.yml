@@ -1,18 +1,25 @@
 ---
-- name: Add 32bit support
-  command: "dpkg --add-architecture i386"
+- name: Check if i386 is enabled
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: set -o pipefail && dpkg --print-foreign-architectures | grep i386
+  register: result_i386_check
+  changed_when: result_i386_check.rc == 1
+  failed_when: result_i386_check.rc > 1
+
+- name: Enable i386 architecture
+  ansible.builtin.command: dpkg --add-architecture i386
+  when: result_i386_check.rc == 1
 
 - name: Update apt cache
-  apt:
+  ansible.builtin.apt:
     update-cache: true
 
 - name: Upgrade apt
-  apt:
+  ansible.builtin.apt:
     upgrade: true
 
-- name: Autoremove
-  apt:
-    autoremove: true
-
-- name: Install lib dependencies for srcds
-  command: apt-get -y -o \"Dpkg::Options::=--force-confdef\" -o \"Dpkg::Options::=--force-confold\" install 'libncurses5:i386' 'libbz2-1.0:i386' 'libtinfo5:i386' 'libcurl3-gnutls:i386' 'lib32z1' 'lib32gcc1' 'lib32stdc++6'
+# Using the apt anisble module was generating a wrong dependency tree
+- name: Install lib dependencies for srcds # noqa command-instead-of-module
+  ansible.builtin.command: apt-get -y install 'libncurses5:i386' 'libbz2-1.0:i386' 'libtinfo5:i386' 'libcurl3-gnutls:i386' 'lib32z1' 'lib32gcc1' 'lib32stdc++6'
+  changed_when: true

@@ -2,16 +2,11 @@ data "aws_ami" "ubuntu" {
   most_recent = true
 
   filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
+    name   = "image-id"
+    values = ["ami-0f6a7ae2dd588e412"] // Ubuntu 20.04 Server
   }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
+  owners = ["128071099072"]
 }
 
 resource "aws_instance" "instance" {

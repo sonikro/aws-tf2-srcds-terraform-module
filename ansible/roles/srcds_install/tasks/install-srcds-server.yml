@@ -4,7 +4,7 @@
     path: "{{ srcds_server_path }}"
     state: directory
     owner: "{{ srcds_username }}"
-    mode: 'u=rwx,g=rwx,o=r'
+    mode: '0775'
   become: true
   become_user: "{{ srcds_username }}"
 
@@ -21,4 +21,4 @@
     src: server.cfg
     dest: "{{ srcds_server_path }}/tf/cfg/server.cfg"
     owner: "{{ srcds_username }}"
-    mode: 'u=rwx,g=rwx,o=r'
+    mode: '0775'

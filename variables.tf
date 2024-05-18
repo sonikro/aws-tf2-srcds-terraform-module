@@ -82,3 +82,13 @@ variable "root_volume_size" {
   default     = 20
   description = "Size in GBs of the root block"
 }
+
+variable "ami_id" {
+  default     = "ami-064d3a3177bf5cbda" // Ubuntu 20.04 LTS SA-EAST-1
+  description = "AMI ID to be used in the EC2 instance"
+}
+
+variable "ami_owner" {
+  default     = "679593333241" // Canonical
+  description = "Owner of the AMI"
+}

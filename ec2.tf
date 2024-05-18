@@ -3,10 +3,10 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "image-id"
-    values = ["ami-0f6a7ae2dd588e412"] // Ubuntu 20.04 Server
+    values = [var.ami_id]
   }
 
-  owners = ["128071099072"]
+  owners = [var.ami_owner]
 }
 
 resource "aws_instance" "instance" {
